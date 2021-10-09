@@ -38,3 +38,8 @@ h6 {
   display: flex;
   justify-content: center;
 }
+
+#yourPokemonNickName {
+  display: flex;
+  justify-content: center;
+}

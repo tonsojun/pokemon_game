@@ -19,10 +19,11 @@
 
     <h6>Your Pokemon</h6>
     <div id="yourPokemon"></div>
+    <div id="yourPokemonNickName"></div>
 
     <script>
       let pokemon = {};
-      let yourPokemon = [];
+      let yourPokemon = {};
       let yourActions = [];
 
       const hit = () => {
@@ -33,11 +34,10 @@
       }
 
       const drawYourPokemon = () => {
-        let newHtml = "";
-        for (var i = 0; i < yourPokemon.length; i++) {
-          newHtml += `<img src="${yourPokemon[i]}">`
+        for  (const property in yourPokemon) {
+          document.getElementById("yourPokemon")
+          .innerHTML += '<li>' + property + '</li>' + '<li>' + yourPokemon[property] + '</li>'
         }
-        document.getElementById("yourPokemon").innerHTML = newHtml
       }
 
       const hitActions = (hp) => {
@@ -61,7 +61,10 @@
         let chanceToCatch = pokemon.hp / pokemon.base_hp;
         Math.random()
         if(Math.random() > chanceToCatch) {
-          yourPokemon.push(pokemon.sprite);
+          let newName = prompt("Please give your Pokemon a nickname")
+          yourPokemon[newName]  = pokemon.sprite;
+          console.log("yourPokemon object is ", yourPokemon)
+          //yourPokemon.push(pokemon.sprite);
           newPokemon();
           drawYourPokemon();
           catchActions("Caught Pokemon!!!");
