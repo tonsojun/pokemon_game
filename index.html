@@ -14,28 +14,47 @@
       <button class="button" onClick="catchPokemon()">Catch Pokemon</button>
     </div>
 
+    <h6>Action History</h6>
+    <div id="actions"></div>
+
     <h6>Your Pokemon</h6>
     <div id="yourPokemon"></div>
 
     <script>
       let pokemon = {};
       let yourPokemon = [];
+      let yourActions = [];
 
       const hit = () => {
         pokemon.hp = pokemon.hp - Math.floor(Math.random() * 50)
-        console.log('pokemon is ', pokemon)
-        console.log('pokemon.hp is ', pokemon.hp)
         document.getElementById("hp").innerHTML = `<h3>HP:  + ${pokemon.hp}`
+        hitActions(pokemon.hp)
+        drawActions();
       }
 
       const drawYourPokemon = () => {
-        console.log("inside drawYourPokemon")
         let newHtml = "";
         for (var i = 0; i < yourPokemon.length; i++) {
           newHtml += `<img src="${yourPokemon[i]}">`
         }
-        console.log("newHtml is ", newHtml)
         document.getElementById("yourPokemon").innerHTML = newHtml
+      }
+
+      const hitActions = (hp) => {
+        yourActions.push(hp);
+      }
+
+      const catchActions = (message) => {
+        yourActions.push(message);
+        drawActions();
+      }
+
+      const drawActions = () => {
+        let actionsHtml = ""
+        for(var i = 0; i < yourActions.length; i++) {
+          actionsHtml += `<p>${yourActions[i]}<p>`
+        }
+        document.getElementById("actions").innerHTML = actionsHtml;
       }
 
       const catchPokemon = () => {
@@ -45,26 +64,24 @@
           yourPokemon.push(pokemon.sprite);
           newPokemon();
           drawYourPokemon();
+          catchActions("Caught Pokemon!!!");
           console.log("pokemon caught")
         } 
         else {
           console.log("failed to catch pokemon")
+          catchActions("Darnit! Pokemon got away!");
         }
       }
 
       async function newPokemon() {
         let num = Math.floor(Math.random() * 500)
-        console.log('num is ', num)
         fetch(`https://pokeapi.co/api/v2/pokemon/${num}`)
           .then(response => response.json())
           .then(data => {
-            console.log('data is ', data)
             pokemon.name = data.name
             pokemon.sprite = data.sprites.front_default
             pokemon.hp = data.stats[0].base_stat
             pokemon.base_hp = data.stats[0].base_stat
-            console.log('pokemon is ', pokemon)
-            console.log('yourPokemon is ', yourPokemon)
             document.getElementById("name").innerHTML = pokemon.name
             document.getElementById("sprite").innerHTML = `<img src="${pokemon.sprite}">`
           })

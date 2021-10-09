@@ -25,6 +25,10 @@ h1 {
   justify-content: center;
 }
 
+#actions {
+  text-align: center;
+}
+
 h6 {
   text-align: center;
   font-size: .6cm;
