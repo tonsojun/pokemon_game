@@ -19,7 +19,6 @@
 
     <h6>Your Pokemon</h6>
     <div id="yourPokemon"></div>
-    <div id="yourPokemonNickName"></div>
 
     <script>
       let pokemon = {};
@@ -68,7 +67,6 @@
         if(Math.random() > chanceToCatch) {
           let newName = prompt("Please give your Pokemon a nickname")
           yourPokemon[newName]  = pokemon.sprite;
-          console.log("yourPokemon object is ", yourPokemon)
           //yourPokemon.push(pokemon.sprite);
           newPokemon();
           drawYourPokemon();
