@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 100px;
+}
+
+#name {
+  text-align: center;
+  font-size: .9cm;
+}
+
+#sprite {
+  text-align: center;
+}
+
+#hp {
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+h6 {
+  text-align: center;
+  font-size: .6cm;
+}
+
+#yourPokemon {
+  display: flex;
+  justify-content: center;
+}

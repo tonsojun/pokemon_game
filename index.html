@@ -3,34 +3,38 @@
     <link rel="stylesheet" href="index.css">
   </head>
   <body>
-    <h1>Pokemon Game</h1>
+    <h1>A Pokemon Capture Game</h1>
 
     <div id="name"></div>
     <div id="sprite"></div>
     <div id="hp">hit point: </div>
-    <button onClick="newPokemon()">Find New Pokemon!</button>
-    <button onClick="hit()">Hit with a stick</button>
-    <button onClick="catchPokemon()">Catch Pokemon</button>
+    <div class="button-container">
+      <button class="button" onClick="newPokemon()">Find New Pokemon!</button>
+      <button class="button" onClick="hit()">Hit with a stick</button>
+      <button class="button" onClick="catchPokemon()">Catch Pokemon</button>
+    </div>
 
     <h6>Your Pokemon</h6>
     <div id="yourPokemon"></div>
 
     <script>
-      const pokemon = {};
-      const yourPokemon = [];
+      let pokemon = {};
+      let yourPokemon = [];
 
       const hit = () => {
         pokemon.hp = pokemon.hp - Math.floor(Math.random() * 50)
         console.log('pokemon is ', pokemon)
         console.log('pokemon.hp is ', pokemon.hp)
-        document.getElementById("hp").innnerHTML = `"<h3>HP: " + ${pokemon.hp}`
+        document.getElementById("hp").innerHTML = `<h3>HP:  + ${pokemon.hp}`
       }
 
       const drawYourPokemon = () => {
+        console.log("inside drawYourPokemon")
         let newHtml = "";
         for (var i = 0; i < yourPokemon.length; i++) {
-          newHtml += `<img src="${yourPokemon[i]}"`
+          newHtml += `<img src="${yourPokemon[i]}">`
         }
+        console.log("newHtml is ", newHtml)
         document.getElementById("yourPokemon").innerHTML = newHtml
       }
 
