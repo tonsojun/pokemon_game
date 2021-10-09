@@ -34,10 +34,15 @@
       }
 
       const drawYourPokemon = () => {
+        let html = "<table>"
         for  (const property in yourPokemon) {
-          document.getElementById("yourPokemon")
-          .innerHTML += '<li>' + property + '</li>' + '<li>' + yourPokemon[property] + '</li>'
+          html +="<tr>";
+          html +="<td>" + property + "</td>"
+          html +="<td>" + `<img src="${yourPokemon[property]}"` + "</td>"
+          html +="</tr>"
         }
+        html += "</table>";
+        document.getElementById("yourPokemon").innerHTML = html;
       }
 
       const hitActions = (hp) => {
