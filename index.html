@@ -3,15 +3,16 @@
     <link rel="stylesheet" href="index.css">
   </head>
   <body>
-    <h1>A Pokemon Capture Game</h1>
+    <h1>Choose your pokemon</h1>
 
+    <div id="start"></div>
     <div id="name"></div>
     <div id="sprite"></div>
     <div id="hp">hit point: </div>
     <div class="button-container">
       <button class="button" onClick="newPokemon()">Find New Pokemon!</button>
       <button class="button" onClick="hit()">Hit with a stick</button>
-      <button class="button" onClick="catchPokemon()">Catch Pokemon</button>
+      <button id="modal-btn" class="button" onClick="catchPokemon">Catch Pokemon</button>
     </div>
 
     <h6>Action History</h6>
@@ -20,16 +21,70 @@
     <h6>Your Pokemon</h6>
     <div id="yourPokemon"></div>
 
+    <!-- Modal -->
+    <div class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <!-- <form action=""> -->
+          <label for="nickname">Give your Pokemon a Nickname</label>
+          <input type="text" id="nickname" name="nickname">
+          <button onClick="newName()">Submit</button>
+        <!-- </form> -->
+      </div>
+    </div>
+
     <script>
+
+      // Modal
+      let modalBtn = document.getElementById("modal-btn")
+
+      let modal = document.querySelector(".modal")
+
+      let closeBtn = document.querySelector(".close-btn")
+
+      
+      modalBtn.onclick = function() {
+        modal.style.display = "block"
+      }
+      
+      closeBtn.onclick = function() {
+        modal.style.display = "none"
+      }
+      
+      window.onclick = function(e) {
+        if(e.target == modal) {
+          modal.style.display = "none"
+        }
+      }
+      // end modal 
+      
+      let pokemonStart = {};
       let pokemon = {};
       let yourPokemon = {};
       let yourActions = [];
+      
+      const newName = () => {
+        let newNickName = document.getElementById("nickname").value;
+        console.log("name is ", newNickName)
+      }
 
       const hit = () => {
         pokemon.hp = pokemon.hp - Math.floor(Math.random() * 50)
         document.getElementById("hp").innerHTML = `<h3>HP:  + ${pokemon.hp}`
         hitActions(pokemon.hp)
         drawActions();
+      }
+
+      const drawStartPokemon = () => {
+        let html = "<table>"
+          for  (const property in pokemonStart) {
+          html +="<tr>";
+          html +="<td>" + property + "</td>"
+          html +="<td>" + `<img src="${pokemonStart[property]}"` + "</td>"
+          html +="</tr>"
+        }
+        html += "</table>";
+        document.getElementById("start").innerHTML = html;
       }
 
       const drawYourPokemon = () => {
@@ -65,10 +120,8 @@
         let chanceToCatch = pokemon.hp / pokemon.base_hp;
         Math.random()
         if(Math.random() > chanceToCatch) {
-          let newName = prompt("Please give your Pokemon a nickname")
-          yourPokemon[newName]  = pokemon.sprite;
-          //yourPokemon.push(pokemon.sprite);
-          newPokemon();
+          //newName();
+          //newPokemon();
           drawYourPokemon();
           catchActions("Caught Pokemon!!!");
           console.log("pokemon caught")
@@ -80,17 +133,23 @@
       }
 
       async function newPokemon() {
+        let html = "<table>"
         let num = Math.floor(Math.random() * 500)
         fetch(`https://pokeapi.co/api/v2/pokemon/${num}`)
-          .then(response => response.json())
-          .then(data => {
-            pokemon.name = data.name
-            pokemon.sprite = data.sprites.front_default
-            pokemon.hp = data.stats[0].base_stat
-            pokemon.base_hp = data.stats[0].base_stat
-            document.getElementById("name").innerHTML = pokemon.name
-            document.getElementById("sprite").innerHTML = `<img src="${pokemon.sprite}">`
-          })
+        .then(response => response.json())
+        .then(data => {
+          pokemon.name = data.name;
+          pokemon.sprite = data.sprites.front_default;
+          pokemon.hp = data.stats[0].base_stat;
+          pokemon.base_hp = data.stats[0].base_stat;
+          let name = pokemon.name;
+          let pic = pokemon.sprite
+          pokemonStart = name;
+          pokemonStart[name] = pic;
+          document.getElementById("name").innerHTML = pokemon.name;
+          document.getElementById("sprite").innerHTML = `<img src="${pokemon.sprite}">`;
+        })
+        html += "</table>";
       }
       newPokemon();
     </script>
